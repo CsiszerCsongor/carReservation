@@ -1,0 +1,5 @@
+<app-navbar (messageEvent)="receivePage($event)"></app-navbar>
+
+<div class="page-content">
+    <ng-container *ngComponentOutlet="actualComponent"></ng-container>
+</div>

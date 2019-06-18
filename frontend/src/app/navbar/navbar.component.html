@@ -1,0 +1,23 @@
+<div id="menu-row-background">
+  <ul>
+    <li *ngIf="authority === 'user'" class="navbar-button btn btn-primary" (click)="sendPage('Kereses')">
+        <a>Keresés</a>
+    </li>
+
+    <li *ngIf="authority === 'user'" class="navbar-button btn btn-primary" (click)="login()">
+      <a>Belépés</a>
+    </li>
+
+    <li *ngIf="authority === 'admin'" class="navbar-button btn btn-primary" (click)="sendPage('Foglalasok')">
+      <a>Foglalások</a>
+    </li>
+
+    <li *ngIf="authority === 'admin'" class="navbar-button btn btn-primary" (click)="sendPage('Szerkesztes')">
+      <a>Szerkesztés</a>
+    </li>
+
+    <li *ngIf="authority === 'admin'" class="navbar-button btn btn-primary" (click)="logout()">
+      <a>Kilépés</a>
+    </li>
+  </ul>
+</div>
