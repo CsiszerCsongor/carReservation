@@ -1,3 +1,11 @@
-<p>
-  admin-edit-cars works!
-</p>
+<div id="choose-option-bar">
+  <button [ngClass]="{'btn btn-success' : newCar }" class="btn btn-primary" (click)="newCarMethod()">Új autó felvétel</button>
+  <button [ngClass]="{'btn btn-success' : editCar }" class="btn btn-primary"  (click)="editCarMethod()">Autó szerkesztése</button>
+</div>
+
+<div *ngIf="newCar" class="content">
+  Add new Car
+</div>
+<div *ngIf="editCar" class="content">
+  Edit car
+</div>

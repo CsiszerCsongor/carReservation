@@ -7,9 +7,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminEditCarsComponent implements OnInit {
 
+  private newCar: boolean;
+  private editCar: boolean;
+
   constructor() { }
 
   ngOnInit() {
+    this.newCar = true;
+    this.editCar = false;
   }
 
+  newCarMethod() {
+    this.newCar = true;
+    this.editCar = false;
+  }
+
+  editCarMethod() {
+    this.newCar = false;
+    this.editCar = true;
+  }
 }

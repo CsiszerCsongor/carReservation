@@ -1,0 +1,25 @@
+#choose-option-bar {
+    width: 300px;
+    height:40px;
+    margin-left:auto;
+    margin-right: auto;
+    margin-top:20px;
+}
+
+#choose-option-bar button {
+    border-radius: 10px;
+    margin-right: 20px;
+    outline: none;
+    cursor: pointer;
+}
+#choose-option-bar button:last-child {
+    margin-right: 0px;
+}
+
+.content {
+    width:750px;
+    min-height: 400px;
+    border: 1px solid black;
+    margin-left: auto;
+    margin-right: auto;
+}
