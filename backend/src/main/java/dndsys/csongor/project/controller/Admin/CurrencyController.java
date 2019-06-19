@@ -2,7 +2,6 @@ package dndsys.csongor.project.controller.Admin;
 
 import dndsys.csongor.project.dto.response.CurrencyDTO;
 import dndsys.csongor.project.model.Currency;
-import dndsys.csongor.project.repository.CurrencyRepository;
 import dndsys.csongor.project.service.CurrencyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,18 +21,14 @@ public class CurrencyController {
     @Autowired
     private CurrencyServiceImpl currencyService;
 
-    @Autowired
-    private CurrencyRepository currencyRepository;
-
     @GetMapping("currencies")
     @PreAuthorize("hasRole('ADMIN')")
     private List<CurrencyDTO> getCurrencies(){
-        /*List<Currency> currencies = currencyRepository.findAll();
+        List<Currency> currencies = currencyService.getCurrencies();
         List<CurrencyDTO> currencyDTOS = new ArrayList<>();
         for(int i = 0; i < currencies.size(); ++i)
             currencyDTOS.add(new CurrencyDTO().currencyToCurrencyDTO(currencies.get(i)));
 
-        return currencyDTOS;*/
-        return null;
+        return currencyDTOS;
     }
 }
