@@ -4,7 +4,39 @@
 </div>
 
 <div *ngIf="newCar" class="content">
-  Add new Car
+  <table>
+    <tr>
+      <td>Autó neve : </td>
+      <td>
+        <input type="text" [(ngModel)]="carName" class="form-control">
+      </td>
+    </tr>
+
+    <tr>
+      <td>Napi ár : </td>
+      <td>
+        <input type="text" [(ngModel)]="pricePerDay" class="form-control">
+      </td>
+    </tr>
+
+    <tr>
+      <td>Valuta : </td>
+      <td>
+        <select class="browser-default custom-select" [(ngModel)]="currency">
+          <option *ngFor="let currency of currencies" [value]="currency.id">
+            {{ currency.name }}
+          </option>
+        </select>
+      </td>
+    </tr>
+
+    <tr>
+      <td>Autó képe : </td>
+      <td>
+        <input type="text" [(ngModel)]="carName">
+      </td>
+    </tr>
+  </table>
 </div>
 <div *ngIf="editCar" class="content">
   Edit car
