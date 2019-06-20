@@ -39,7 +39,7 @@ public class CarServiceImpl implements CarService {
         tmp.setPricePerDay(carDTO.getPricePerDay());
 
         Currency currency;
-        Optional<Currency> optionalCurrency = currencyRepository.getCurrencyByName(carDTO.getCurrency());
+        Optional<Currency> optionalCurrency = currencyRepository.getCurrencyByName(carDTO.getCurrency().getName());
 
         if(optionalCurrency.isPresent()){
             currency = optionalCurrency.get();
@@ -51,7 +51,13 @@ public class CarServiceImpl implements CarService {
         tmp.setCurrency(currency);
         tmp.setActive(true);
 
-        tmp.setCarCode(generateCarCode(carDTO.getName()));
+        String generatedCarCode = generateCarCode(carDTO.getName());
+
+        while(carRepository.findCarByCarCode(generatedCarCode).isPresent()){
+            generatedCarCode = generateCarCode(carDTO.getName());
+        }
+
+        tmp.setCarCode(generatedCarCode);
 
         Car car = carRepository.save(tmp);
 

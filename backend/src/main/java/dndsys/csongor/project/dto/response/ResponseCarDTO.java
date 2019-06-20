@@ -7,7 +7,7 @@ public class ResponseCarDTO {
     private int pricePerDay;
     private Currency currency;
     private String carCode;
-    private boolean isActive;;
+    private boolean isActive;
 
     public ResponseCarDTO() {}
 
@@ -43,11 +43,11 @@ public class ResponseCarDTO {
         this.currency = currency;
     }
 
-    public String getUserCode() {
+    public String getCarCode() {
         return carCode;
     }
 
-    public void setUserCode(String carCode) {
+    public void setCarCode(String carCode) {
         this.carCode = carCode;
     }
 

@@ -1,5 +1,6 @@
 package dndsys.csongor.project.dto.request;
 
+import dndsys.csongor.project.model.Currency;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +14,11 @@ public class RequestCarDTO {
     private String name;
     @Range(min=0, max=500)
     private int pricePerDay;
-    private String currency;
+    private Currency currency;
 
     public RequestCarDTO() {}
 
-    public RequestCarDTO(String name, int pricePerDay, String currency) {
+    public RequestCarDTO(String name, int pricePerDay, Currency currency) {
         this.name = name;
         this.pricePerDay = pricePerDay;
         this.currency = currency;
@@ -39,11 +40,11 @@ public class RequestCarDTO {
         this.pricePerDay = pricePerDay;
     }
 
-    public String getCurrency() {
+    public Currency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(String currency) {
+    public void setCurrency(Currency currency) {
         this.currency = currency;
     }
 }

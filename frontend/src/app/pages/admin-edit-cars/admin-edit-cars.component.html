@@ -45,7 +45,17 @@
       <!--<button [ngClass]="{'btn btn-success' : cursorFocus }" class="btn btn-warning" (mouseenter)="focusOn()" (mouseleave)="focusOff()" (click)="createNewCar()">Feltöltés</button>-->
       <button (click)="createNewCar()">Létrehozás</button>
   </div>
+
+  <br/>
+  <br/>
+
+  <div class="message-success" *ngIf="carCreated">
+    Az új autó sikeresen hozzáadva. Az autó kódja: <p>{{ carCodeAfterCreation }}</p>
+  </div>
   
+  <div class="message-unsuccess" *ngIf="!carNotCreated">
+      Az új autót nem lehetett hozzáadni.
+  </div>
 </div>
 
 <!--Edit car component-->

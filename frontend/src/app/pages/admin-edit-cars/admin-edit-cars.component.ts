@@ -21,7 +21,10 @@ export class AdminEditCarsComponent implements OnInit {
   private detailsCanAppear: boolean;
   private cursorFocus: boolean;
   private carCode: string;
+  private carCreated: boolean;
+  private carNotCreated: boolean;
 
+  private carCodeAfterCreation: string;
   private currency: string;
 
   private currencies: CurrencyModel[];
@@ -43,6 +46,9 @@ export class AdminEditCarsComponent implements OnInit {
     this.carCode = "";
     this.detailsCanAppear = true;
     this.cursorFocus = false;
+    this.carCreated = false;
+    this.carNotCreated = true;
+    this.carCodeAfterCreation = '';
     this.getCurrencies();
   }
 
@@ -105,14 +111,33 @@ export class AdminEditCarsComponent implements OnInit {
   }
 
   createNewCar() {
-    this.newCar = new CarModel(0,this.carName, this.pricePerDay, true, this.currency, '');
+    var tmp: CurrencyModel;
+    var BreakException = {};
+
+    try {
+      this.currencies.forEach((e) => {
+        if(e.name === this.currency) {
+          tmp = e;
+          throw BreakException;
+        }
+      });
+    } catch (e) {
+      if (e !== BreakException) throw e;
+    }
+
+    this.newCar = new CarModel(0,this.carName, this.pricePerDay, true, tmp, '');
     this.http.post<CarModel>(this.carUrl, this.newCar).subscribe(
       result => {
         console.log(JSON.stringify(result));
-        this.newCar = result;
-        console.log(JSON.parse(JSON.stringify(result)).userCode);
+        this.newCar = result
+        console.log("Car: " + JSON.stringify(this.newCar))
+        this.carCodeAfterCreation = this.newCar.carCode;
+        this.carCreated = true;
+        this.carNotCreated = true;            // car was not created is true => error message don't need to appear
       },
       error => {
+        this.carCreated = false;
+        this.carNotCreated = false;           // car was not created is false  => error message need to be appear
         console.log(error);
       }
     );
