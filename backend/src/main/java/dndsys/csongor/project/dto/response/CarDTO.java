@@ -1,26 +1,30 @@
-package dndsys.csongor.project.model;
+package dndsys.csongor.project.dto.response;
 
-import javax.persistence.*;
+import dndsys.csongor.project.model.Car;
 
-@Entity
-@Table(name = "cars")
-public class Car extends BaseEntity {
+public class CarDTO {
     private String name;
     private int pricePerDay;
     private boolean isActive;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="currency_id", nullable = false)
-    private Currency currency;
+    private String currency;
     private String carCode;
 
-    public Car() {}
+    public CarDTO() {}
 
-    public Car(String name, int pricePerDay, boolean isActive, Currency currency, String carCode) {
+    public CarDTO(String name, int pricePerDay, boolean isActive, String currency, String carCode) {
         this.name = name;
         this.pricePerDay = pricePerDay;
         this.isActive = isActive;
         this.currency = currency;
         this.carCode = carCode;
+    }
+
+    public CarDTO(Car car) {
+        this.name = car.getName();
+        this.pricePerDay = car.getPricePerDay();
+        this.isActive = car.isActive();
+        this.currency = car.getCurrency().getName();
+        this.carCode = car.getCarCode();
     }
 
     public String getName() {
@@ -39,20 +43,20 @@ public class Car extends BaseEntity {
         this.pricePerDay = pricePerDay;
     }
 
-    public Currency getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
-    }
-
     public boolean isActive() {
         return isActive;
     }
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public String getCarCode() {

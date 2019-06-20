@@ -20,4 +20,6 @@ dependencies {
     compile group: 'org.springframework.security', name: 'spring-security-config'
     compile group:'org.springframework.security', name:'spring-security-web'
     compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.0'
+    compile group: 'junit', name: 'junit'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
 }

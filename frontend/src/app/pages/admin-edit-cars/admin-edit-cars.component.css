@@ -19,8 +19,72 @@
 .content {
     width:750px;
     min-height: 400px;
-    border: 1px solid black;
     margin-left: auto;
     margin-right: auto;
     margin-top:10px;
+    border: 1px solid black;
+}
+
+.content table {
+    margin-left:auto;
+    margin-right: auto;
+    border-collapse:separate; 
+    border-spacing:10px;
+}
+
+.content table tr td{
+    font-weight : bold;
+}
+
+.content #upload-button-div {
+    width:100px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+
+#upload-button-div button {
+    width:100px;
+    height: 50px;
+    font-weight: bold;
+    color:black;
+    background-color: white;
+    border: 2px solid grey;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+}
+
+#upload-button-div button:hover {
+    color: white;
+    background-color: black;
+}
+
+#upload-button-div button:active {
+    color: black;
+    background-color: white;
+    border: 2px solid black;
+}
+
+input[type="file"] {
+    display: none;
+    font-weight: normal;
+}
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 3px 6px;
+    cursor: pointer;
+}
+
+#search-bar p {
+    float: left;
+}
+
+.input-style {
+    width:115px;
+}
+
+.content table tr td label{
+    margin-right: 20px;
 }

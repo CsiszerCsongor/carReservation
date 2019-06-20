@@ -1,21 +1,21 @@
 <div id="choose-option-bar">
-  <button [ngClass]="{'btn btn-success' : newCar }" class="btn btn-primary" (click)="newCarMethod()">Új autó felvétel</button>
-  <button [ngClass]="{'btn btn-success' : editCar }" class="btn btn-primary"  (click)="editCarMethod()">Autó szerkesztése</button>
+  <button [ngClass]="{'btn btn-success' : newCarComponentCanAppear }" class="btn btn-primary" (click)="newCarMethod()">Új autó felvétel</button>
+  <button [ngClass]="{'btn btn-success' : editCarComponentCanAppear }" class="btn btn-primary"  (click)="editCarMethod()">Autó szerkesztése</button>
 </div>
 
-<div *ngIf="newCar" class="content">
+<div *ngIf="newCarComponentCanAppear" class="content">
   <table>
     <tr>
       <td>Autó neve : </td>
       <td>
-        <input type="text" [(ngModel)]="carName" class="form-control">
+        <input type="text" [(ngModel)]="carName" class="form-control" minlength="5" maxlength="50">
       </td>
     </tr>
 
     <tr>
       <td>Napi ár : </td>
       <td>
-        <input type="text" [(ngModel)]="pricePerDay" class="form-control">
+        <input type="text" [(ngModel)]="pricePerDay" id="price" class="form-control" (blur)="checkPrice()" min="0" max="500">
       </td>
     </tr>
 
@@ -23,21 +23,95 @@
       <td>Valuta : </td>
       <td>
         <select class="browser-default custom-select" [(ngModel)]="currency">
-          <option *ngFor="let currency of currencies" [value]="currency.id">
-            {{ currency.name }}
+          <option *ngFor="let c of currencies" [value]="c.name">
+            {{ c.name }}
           </option>
         </select>
       </td>
     </tr>
 
     <tr>
-      <td>Autó képe : </td>
+        <td>Autó képe : </td>
+        <td>
+            <label for="file-upload" class="custom-file-upload">
+                <i class="fa fa-cloud-upload"></i> Kép feltöltés
+            </label>
+            <input id="file-upload" type="file"/>
+        </td>
+      </tr>
+  </table>
+
+  <div id="upload-button-div">
+      <!--<button [ngClass]="{'btn btn-success' : cursorFocus }" class="btn btn-warning" (mouseenter)="focusOn()" (mouseleave)="focusOff()" (click)="createNewCar()">Feltöltés</button>-->
+      <button (click)="createNewCar()">Létrehozás</button>
+  </div>
+  
+</div>
+
+<!--Edit car component-->
+
+<div *ngIf="editCarComponentCanAppear" class="content">
+  <table>
+    <tr>
+      <td>Autó kód : </td>
       <td>
-        <input type="text" [(ngModel)]="carName">
+        <input type="text" class="form-control input-style" maxlength="8" [(ngModel)]="carCode">
+      </td>
+      <td>
+          <button class="btn btn-primary" (click)="searchCar()">Keresés</button>
       </td>
     </tr>
   </table>
-</div>
-<div *ngIf="editCar" class="content">
-  Edit car
+
+  <div *ngIf="detailsCanAppear">
+      <table>
+          <tr>
+            <td>Autó neve : </td>
+            <td>
+              <input type="text" [(ngModel)]="car.name" class="form-control"  minlength="5" maxlength="50">
+            </td>
+          </tr>
+      
+          <tr>
+            <td>Napi ár : </td>
+            <td>
+              <input type="text" [(ngModel)]="car.pricePerDay" class="form-control" (blur)="checkPrice()" min="0" max="500">
+            </td>
+          </tr>
+      
+          <tr>
+            <td>Valuta : </td>
+            <td>
+              <select class="browser-default custom-select" [(ngModel)]="currency">
+                <option *ngFor="let currency of car.currencies" [value]="currency.id">
+                  {{ currency.name }}
+                </option>
+              </select>
+            </td>
+          </tr>
+      
+          <tr>
+            <td>Aktív : </td>
+            <td>
+                <label class="radio-inline">
+                  <input type="radio" name="optradio">  Off
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="optradio">  On
+                </label>
+            </td>
+            </tr>
+
+          <tr>
+              <td>Autó képe : </td>
+              <td>
+                  <label for="file-upload" class="custom-file-upload">
+                      <i class="fa fa-cloud-upload"></i> Kép feltöltés
+                  </label>
+                  <input id="file-upload" type="file"/>
+              </td>
+            </tr>
+        </table>
+  </div>
+  
 </div>

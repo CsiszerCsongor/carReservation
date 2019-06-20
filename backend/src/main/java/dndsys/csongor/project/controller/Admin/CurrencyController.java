@@ -1,4 +1,4 @@
-package dndsys.csongor.project.controller.Admin;
+package dndsys.csongor.project.controller.admin;
 
 import dndsys.csongor.project.dto.response.CurrencyDTO;
 import dndsys.csongor.project.model.Currency;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/admin/")
+@RequestMapping("/api/admin/currency/")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class CurrencyController {
 
@@ -23,7 +23,7 @@ public class CurrencyController {
 
     @GetMapping("currencies")
     @PreAuthorize("hasRole('ADMIN')")
-    private List<CurrencyDTO> getCurrencies(){
+    public List<CurrencyDTO> getCurrencies(){
         List<Currency> currencies = currencyService.getCurrencies();
         List<CurrencyDTO> currencyDTOS = new ArrayList<>();
         for(int i = 0; i < currencies.size(); ++i)

@@ -1,11 +1,14 @@
 package dndsys.csongor.project.model;
 
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="currencies")
 public class Currency extends BaseEntity {
+    @NaturalId
     private String name;
 
     public Currency(){}

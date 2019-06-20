@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface CurrencyRepository extends JpaRepository<Currency, Long> {
     boolean existsByName(String name);
+    Optional<Currency> getCurrencyByName(String name);
 }
