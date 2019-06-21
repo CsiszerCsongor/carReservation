@@ -6,6 +6,8 @@ import {TokenStorageService} from '../../auth/token-storage.service';
 import {Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {Globals} from '../../globals';
+import { CarStateModel } from 'src/app/shared/CarState.model';
+import { UpdateCarModel } from 'src/app/shared/UpdateCar.model'
 
 @Component({
   selector: 'app-admin-edit-cars',
@@ -15,6 +17,8 @@ import {Globals} from '../../globals';
 export class AdminEditCarsComponent implements OnInit {
   private getCurrenciesUrl = this.globals._url + 'admin/currency/currencies';
   private carUrl = this.globals._url + 'admin/car/';
+  private carUpdateUrl = this.globals._url + 'admin/car/update';
+  private carIsActiveUrl = this.globals._url + 'admin/car/isactive';
 
   private newCarComponentCanAppear: boolean;
   private editCarComponentCanAppear: boolean;
@@ -23,6 +27,9 @@ export class AdminEditCarsComponent implements OnInit {
   private carCode: string;
   private carCreated: boolean;
   private carNotCreated: boolean;
+  private isActive: boolean;
+  private carUpdated: boolean;
+  private carNotUpdated: boolean;
 
   private carCodeAfterCreation: string;
   private currency: string;
@@ -33,6 +40,7 @@ export class AdminEditCarsComponent implements OnInit {
   private car: CarModel;
 
   private newCar: CarModel;
+  private carNewInformations: UpdateCarModel;
 
 
   constructor(private tokenStorage: TokenStorageService,
@@ -44,11 +52,14 @@ export class AdminEditCarsComponent implements OnInit {
     this.newCarComponentCanAppear = true;
     this.editCarComponentCanAppear = false;
     this.carCode = "";
-    this.detailsCanAppear = true;
+    this.detailsCanAppear = false;
     this.cursorFocus = false;
     this.carCreated = false;
     this.carNotCreated = true;
     this.carCodeAfterCreation = '';
+    this.isActive = false;
+    this.carUpdated = false;
+    this.carNotUpdated = false;
     this.getCurrencies();
   }
 
@@ -79,8 +90,12 @@ export class AdminEditCarsComponent implements OnInit {
     console.log("Get car url : " + tmpUrl);
     this.http.get<CarModel>(tmpUrl).subscribe(
       result => {
-        this.detailsCanAppear = true;
+        console.log(JSON.stringify(result));
         this.car = result;
+        this.detailsCanAppear = true;
+        this.isActive = this.car.active;
+        this.currency = JSON.parse(JSON.stringify(result)).currency;
+        console.log(JSON.parse(JSON.stringify(result)).currency);
       },
       error => {
         console.log(error);
@@ -128,9 +143,7 @@ export class AdminEditCarsComponent implements OnInit {
     this.newCar = new CarModel(0,this.carName, this.pricePerDay, true, tmp, '');
     this.http.post<CarModel>(this.carUrl, this.newCar).subscribe(
       result => {
-        console.log(JSON.stringify(result));
         this.newCar = result
-        console.log("Car: " + JSON.stringify(this.newCar))
         this.carCodeAfterCreation = this.newCar.carCode;
         this.carCreated = true;
         this.carNotCreated = true;            // car was not created is true => error message don't need to appear
@@ -138,6 +151,63 @@ export class AdminEditCarsComponent implements OnInit {
       error => {
         this.carCreated = false;
         this.carNotCreated = false;           // car was not created is false  => error message need to be appear
+        console.log(error);
+      }
+    );
+  }
+
+
+  changeIsActiveTo(on_off:string){
+    if((on_off === "true" && true !== this.isActive) || (on_off === "false" && false !== this.isActive)){    // only if something changed
+      var actualActiveState = this.isActive;
+      if(on_off === "true"){
+        this.isActive = true;
+      }
+      else{
+        this.isActive = false;
+      }
+      var carState: CarStateModel = new CarStateModel(this.car.id, this.isActive);
+      console.log("Car : " + JSON.stringify(carState));
+      this.http.post<boolean>(this.carIsActiveUrl, carState).subscribe(
+        result => {
+          if(result !== true)                     //if update was unsuccessful, then don't update isActive attribute
+            this.isActive = actualActiveState;
+          else
+            this.car.active = this.isActive;
+        },
+        error => {
+          this.isActive = actualActiveState;        // if error occured nothing's changing
+        }
+      );
+    }
+  }
+
+  updateCar() {
+    var tmp: CurrencyModel;
+    var BreakException = {};
+
+    try {
+      this.currencies.forEach((e) => {
+        if(e.name === this.currency) {
+          tmp = e;
+          throw BreakException;
+        }
+      });
+    } catch (e) {
+      if (e !== BreakException) throw e;
+    }
+
+    this.carNewInformations = new UpdateCarModel(this.car.id, this.car.name, this.car.pricePerDay, this.car.active, tmp.name, this.car.carCode);
+    console.log("Elkuldes : " + JSON.stringify(this.carNewInformations));
+    this.http.post<CarModel>(this.carUpdateUrl, this.carNewInformations).subscribe(
+      result => {
+        this.car = result
+        this.carUpdated = true;
+        this.carNotUpdated = false;            // car was not updated is true => error message don't need to appear
+      },
+      error => {
+        this.carUpdated = false;
+        this.carNotUpdated = true;           // car was not updated is false  => error message need to be appear
         console.log(error);
       }
     );

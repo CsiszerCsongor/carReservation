@@ -1,6 +1,8 @@
 package dndsys.csongor.project.controller.admin;
 
+import dndsys.csongor.project.dto.request.CarStateChangeDTO;
 import dndsys.csongor.project.dto.request.RequestCarDTO;
+import dndsys.csongor.project.dto.request.UpdateCarDTO;
 import dndsys.csongor.project.dto.response.CarDTO;
 import dndsys.csongor.project.dto.response.CurrencyDTO;
 import dndsys.csongor.project.dto.response.ResponseCarDTO;
@@ -32,5 +34,17 @@ public class CarController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseCarDTO createCar(@RequestBody RequestCarDTO carDTO) {
         return carService.createCar(carDTO);
+    }
+
+    @PostMapping("isactive")
+    @PreAuthorize("hasRole('ADMIN')")
+    public boolean changeCarState(@RequestBody CarStateChangeDTO carStateChangeDTO){
+        return carService.carStateChange(carStateChangeDTO);
+    }
+
+    @PostMapping("update")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseCarDTO updateCar(@RequestBody UpdateCarDTO carDTO){
+        return carService.updateCar(carDTO);
     }
 }

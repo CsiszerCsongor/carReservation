@@ -58,7 +58,11 @@
   </div>
 </div>
 
+
+
 <!--Edit car component-->
+
+
 
 <div *ngIf="editCarComponentCanAppear" class="content">
   <table>
@@ -93,8 +97,8 @@
             <td>Valuta : </td>
             <td>
               <select class="browser-default custom-select" [(ngModel)]="currency">
-                <option *ngFor="let currency of car.currencies" [value]="currency.id">
-                  {{ currency.name }}
+                <option *ngFor="let c of currencies" [value]="c.name">
+                  {{ c.name }}
                 </option>
               </select>
             </td>
@@ -102,13 +106,9 @@
       
           <tr>
             <td>Aktív : </td>
-            <td>
-                <label class="radio-inline">
-                  <input type="radio" name="optradio">  Off
-                </label>
-                <label class="radio-inline">
-                  <input type="radio" name="optradio">  On
-                </label>
+            <td id="is-active-buttons">
+                <button [ngClass]="{'btn btn-success' : !isActive }" class="btn btn-secondary" (click)="changeIsActiveTo('false')">Off</button>
+                <button [ngClass]="{'btn btn-success' : isActive }" class="btn btn-secondary" (click)="changeIsActiveTo('true')">On</button>
             </td>
             </tr>
 
@@ -122,6 +122,23 @@
               </td>
             </tr>
         </table>
+
+        <div id="upload-button-div">
+            <!--<button [ngClass]="{'btn btn-success' : cursorFocus }" class="btn btn-warning" (mouseenter)="focusOn()" (mouseleave)="focusOff()" (click)="createNewCar()">Feltöltés</button>-->
+            <button (click)="updateCar()">Mentés</button>
+        </div>
   </div>
   
+  
+
+  <br/>
+  <br/>
+
+  <div class="message-success" *ngIf="carUpdated">
+      Az autó változtatásai sikeresen mentve!
+  </div>
+  
+  <div class="message-unsuccess" *ngIf="carNotUpdated">
+      Az autó változtatásait nem lehetett elmenteni!
+  </div>
 </div>

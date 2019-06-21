@@ -1,14 +1,14 @@
 import { CurrencyModel } from './Currency.model';
 
-export class CarModel {
+export class UpdateCarModel {
     id: number;
     name: string;
     pricePerDay: number;
     active: boolean;
-    currency: CurrencyModel;
+    currency: string;
     carCode: string;
   
-    constructor(id: number, name: string, pricePerDay: number, active: boolean, currency: CurrencyModel, carCode: string) {
+    constructor(id: number, name: string, pricePerDay: number, active: boolean, currency: string, carCode: string) {
       this.id = id;
       this.name = name;
       this.pricePerDay = pricePerDay;

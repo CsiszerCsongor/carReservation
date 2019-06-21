@@ -1,6 +1,8 @@
 package dndsys.csongor.project.service;
 
+import dndsys.csongor.project.dto.request.CarStateChangeDTO;
 import dndsys.csongor.project.dto.request.RequestCarDTO;
+import dndsys.csongor.project.dto.request.UpdateCarDTO;
 import dndsys.csongor.project.dto.response.ResponseCarDTO;
 import dndsys.csongor.project.model.Car;
 import dndsys.csongor.project.model.Currency;
@@ -61,11 +63,65 @@ public class CarServiceImpl implements CarService {
 
         Car car = carRepository.save(tmp);
 
-        ResponseCarDTO response = new ResponseCarDTO(car.getName(), car.getPricePerDay(), currency, car.getCarCode(), car.isActive());
+        ResponseCarDTO response = new ResponseCarDTO(car.getId(), car.getName(), car.getPricePerDay(), currency, car.getCarCode(), car.isActive());
 
         return response;
     }
 
+    /*
+    * if return true => the update it was successful
+    * if return false => the update it was unsuccessful
+    * */
+    @Override
+    public boolean carStateChange(CarStateChangeDTO carStateChangeDTO) {
+        Optional<Car> carOptional = carRepository.findById(carStateChangeDTO.getCarid());
+
+        Car car;
+
+        if(carOptional.isPresent()){
+            car = carOptional.get();
+        }
+        else{
+            return false;
+        }
+
+        car.setActive(carStateChangeDTO.isState());
+
+        carRepository.save(car);
+        return true;
+    }
+
+    @Override
+    public ResponseCarDTO updateCar(UpdateCarDTO carDTO) {
+        Optional<Car> carOptional = carRepository.findById(carDTO.getId());
+        Car car;
+
+        if(carOptional.isPresent()){
+            car = carOptional.get();
+        }
+        else{
+            return null;
+        }
+
+        car.setName(carDTO.getName());
+        car.setPricePerDay(carDTO.getPricePerDay());
+
+        Optional<Currency> currencyOptional = currencyRepository.getCurrencyByName(carDTO.getCurrency());
+
+        Currency currency;
+        if(currencyOptional.isPresent()){
+            currency = currencyOptional.get();
+        }
+        else{
+            return null;
+        }
+
+        car.setCurrency(currency);
+
+        Car tmp = carRepository.save(car);
+
+        return new ResponseCarDTO(tmp.getId(), tmp.getName(), tmp.getPricePerDay(), currency, car.getCarCode(), car.isActive());
+    }
 
 
     private String generateCarCode(String name) {

@@ -1,33 +1,33 @@
-package dndsys.csongor.project.dto.response;
+package dndsys.csongor.project.dto.request;
 
 import dndsys.csongor.project.model.Car;
+import dndsys.csongor.project.model.Currency;
+import org.hibernate.validator.constraints.Range;
 
-public class CarDTO {
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+public class UpdateCarDTO {
     private Long id;
+    @NotBlank
+    @Size(min=5, max=50)
     private String name;
+    @Range(min=0, max=500)
     private int pricePerDay;
-    private boolean isActive;
+    @NotBlank
     private String currency;
     private String carCode;
+    private boolean isActive;
 
-    public CarDTO() {}
+    public UpdateCarDTO() {}
 
-    public CarDTO(Long id, String name, int pricePerDay, boolean isActive, String currency, String carCode) {
+    public UpdateCarDTO(Long id, String name, int pricePerDay, String currency, String carCode, boolean isActive){
         this.id = id;
         this.name = name;
         this.pricePerDay = pricePerDay;
-        this.isActive = isActive;
         this.currency = currency;
         this.carCode = carCode;
-    }
-
-    public CarDTO(Car car) {
-        this.id = car.getId();
-        this.name = car.getName();
-        this.pricePerDay = car.getPricePerDay();
-        this.isActive = car.isActive();
-        this.currency = car.getCurrency().getName();
-        this.carCode = car.getCarCode();
+        this.isActive = isActive;
     }
 
     public Long getId() {
@@ -54,14 +54,6 @@ public class CarDTO {
         this.pricePerDay = pricePerDay;
     }
 
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
     public String getCurrency() {
         return currency;
     }
@@ -76,5 +68,13 @@ public class CarDTO {
 
     public void setCarCode(String carCode) {
         this.carCode = carCode;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }
