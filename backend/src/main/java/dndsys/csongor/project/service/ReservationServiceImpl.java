@@ -62,4 +62,9 @@ public class ReservationServiceImpl implements ReservationService{
 
         return false;
     }
+
+    @Override
+    public boolean existsReservation(String userName) {
+        return reservationRepository.existsByName(userName);
+    }
 }

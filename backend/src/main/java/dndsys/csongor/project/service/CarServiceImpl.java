@@ -159,6 +159,10 @@ public class CarServiceImpl implements CarService {
         return null;
     }
 
+    public boolean existsCar(String name){
+        return carRepository.existsCarByName(name);
+    }
+
 
     private String generateCarCode(String name) {
         return name.substring(0,3) + (this.random.nextInt(90000) + 10000);

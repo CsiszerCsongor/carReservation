@@ -9,4 +9,6 @@ public interface ReservationService {
     Reservation save(Reservation item);
 
     boolean save(ReservationDTO reservationDTO);
+
+    boolean existsReservation(String userName);
 }

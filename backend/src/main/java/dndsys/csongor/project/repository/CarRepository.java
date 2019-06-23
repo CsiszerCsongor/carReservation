@@ -13,4 +13,5 @@ import java.util.Optional;
 public interface CarRepository extends JpaRepository<Car, Long> {
     Optional<Car> findCarByCarCode(String carCode);
     Page<Car> findAllByIsActiveTrue(Pageable page);
+    boolean existsCarByName(String name);
 }
