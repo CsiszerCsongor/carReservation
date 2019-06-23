@@ -2,15 +2,23 @@ package dndsys.csongor.project.service;
 
 import dndsys.csongor.project.dto.request.CarStateChangeDTO;
 import dndsys.csongor.project.dto.request.RequestCarDTO;
+import dndsys.csongor.project.dto.request.TwoDateDTO;
 import dndsys.csongor.project.dto.request.UpdateCarDTO;
+import dndsys.csongor.project.dto.response.CarDTO;
+import dndsys.csongor.project.dto.response.PageableDTO;
 import dndsys.csongor.project.dto.response.ResponseCarDTO;
 import dndsys.csongor.project.model.Car;
 import dndsys.csongor.project.model.Currency;
 import dndsys.csongor.project.repository.CarRepository;
 import dndsys.csongor.project.repository.CurrencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -121,6 +129,34 @@ public class CarServiceImpl implements CarService {
         Car tmp = carRepository.save(car);
 
         return new ResponseCarDTO(tmp.getId(), tmp.getName(), tmp.getPricePerDay(), currency, car.getCarCode(), car.isActive());
+    }
+
+    @Override
+    public PageableDTO getCarsBetweenDates(TwoDateDTO twoDateDTO) {
+        if(twoDateDTO.getPage() >= 0){
+            Pageable onePageWithFiveElement = PageRequest.of(twoDateDTO.getPage(), 5);
+
+            Page<Car> cars = carRepository.findAllByIsActiveTrue(onePageWithFiveElement);
+
+            long total = cars.getTotalElements();
+            int nrOfPages = cars.getTotalPages();
+
+            List<Car> content = cars.getContent();
+
+            List<CarDTO> responseCars = new ArrayList<>();
+
+            for(int i = 0; i < content.size(); ++i){
+                Car tmp = content.get(i);
+                System.out.println("Currency : " + tmp.getCurrency().getName());
+                responseCars.add(new CarDTO(tmp.getId(), tmp.getName(), tmp.getPricePerDay(), tmp.getCurrency().getName(), tmp.getCarCode(), tmp.isActive()));
+            }
+
+            PageableDTO pageable = new PageableDTO(responseCars, total, nrOfPages);
+
+            return pageable;
+        }
+
+        return null;
     }
 
 

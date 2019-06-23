@@ -1,0 +1,96 @@
+.available-car-content {
+    width:900px;
+    height:160px;
+    margin-left:auto;
+    margin-right: auto;
+    overflow: hidden;
+    margin-top:20px;
+    /*border:1px solid black;*/
+}
+
+.available-car-content .car-picture {
+    width:270px;
+    height:160px;
+    float:left;
+}
+
+.available-car-content .car-datas {
+    width:630px;
+    height:160px;
+    /*border:1px solid red;*/
+    overflow: hidden;
+}
+
+.available-car-content .car-datas table {
+    width:620px;
+    height:140px;
+    margin-left:30px;
+}
+
+.available-car-content .car-datas table tr td {
+    /*border:1px solid black;*/
+}
+th[colspan]:not([colspan="1"]) {
+    text-align: center;
+}
+
+.title-font-style{
+    border:1px solid white;
+}
+
+hr{
+    width: 700px;
+}
+
+.paging-part {
+    width: 500px;
+    height:30px;
+    margin-left:auto;
+    margin-right: auto;
+}
+
+.date-picker-container {
+    /*border:1px solid black;*/
+    width:550px;
+    margin-left:auto;
+    margin-right:auto;
+    text-align: center;
+}
+
+table.search-bar {
+    border-collapse: separate;
+}
+
+table.search-bar tr td {
+    font-weight: bold;
+    /*border:1px solid black;*/
+    min-width:160px;
+    padding-top:10px;
+}
+
+.td-datepicker-size {
+    width:220px;    
+}
+
+.date-picker-container tr td button {
+    width:100px;
+    height: 50px;
+    font-weight: bold;
+    color:black;
+    background-color: white;
+    border: 2px solid grey;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+}
+
+.date-picker-container tr td button:hover {
+    color: white;
+    background-color: black;
+}
+
+.date-picker-container tr td button:active {
+    color: black;
+    background-color: white;
+    border: 2px solid black;
+}

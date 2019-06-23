@@ -17,7 +17,8 @@ import { UserMainpageComponent } from './pages/user-mainpage/user-mainpage.compo
 import { AdminCheckReservationsComponent } from './pages/admin-check-reservations/admin-check-reservations.component';
 import { AdminEditCarsComponent } from './pages/admin-edit-cars/admin-edit-cars.component'
 
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,9 @@ import { AdminEditCarsComponent } from './pages/admin-edit-cars/admin-edit-cars.
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    BsDatepickerModule.forRoot(),
   ],
   entryComponents: [
     UserMainpageComponent,

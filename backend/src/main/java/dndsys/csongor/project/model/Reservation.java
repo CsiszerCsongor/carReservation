@@ -1,6 +1,7 @@
 package dndsys.csongor.project.model;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Table(name="reservations")
@@ -9,7 +10,6 @@ public class Reservation extends BaseEntity {
     private String lastName;
     private String email;
     private String telephone;
-    private int nrOfDays;            // reservation days
     private int sumOfReservation;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="car_id", nullable = false)
@@ -17,16 +17,17 @@ public class Reservation extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="currency_id", nullable = false)
     private Currency currency;
+    private Date startDate;
+    private Date endDate;
 
     public Reservation() {}
 
-    public Reservation(String firstName, String lastName, String email, String telephone, int nrOfDays, int sumOfReservation,
+    public Reservation(String firstName, String lastName, String email, String telephone, int sumOfReservation,
                        Car car, Currency currency) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.telephone = telephone;
-        this.nrOfDays = nrOfDays;
         this.sumOfReservation = sumOfReservation;
         this.car = car;
         this.currency = currency;
@@ -64,14 +65,6 @@ public class Reservation extends BaseEntity {
         this.telephone = telephone;
     }
 
-    public int getNrOfDays() {
-        return nrOfDays;
-    }
-
-    public void setNrOfDays(int nrOfDays) {
-        this.nrOfDays = nrOfDays;
-    }
-
     public int getSumOfReservation() {
         return sumOfReservation;
     }
@@ -94,5 +87,21 @@ public class Reservation extends BaseEntity {
 
     public void setCurrency(Currency currency) {
         this.currency = currency;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 }

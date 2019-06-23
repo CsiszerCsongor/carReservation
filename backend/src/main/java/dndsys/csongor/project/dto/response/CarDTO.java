@@ -12,7 +12,7 @@ public class CarDTO {
 
     public CarDTO() {}
 
-    public CarDTO(Long id, String name, int pricePerDay, boolean isActive, String currency, String carCode) {
+    public CarDTO(Long id, String name, int pricePerDay, String currency, String carCode,boolean isActive) {
         this.id = id;
         this.name = name;
         this.pricePerDay = pricePerDay;

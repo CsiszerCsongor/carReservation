@@ -1,4 +1,4 @@
-package dndsys.csongor.project.controller;
+package dndsys.csongor.project.controller.user;
 
 
 import dndsys.csongor.project.dto.request.LoginDTO;
