@@ -11,7 +11,6 @@ import { PageableModel } from 'src/app/shared/Pageable.model';
 
 import { TwoDateOnePageModel } from 'src/app/shared/TwoDateOnePage.model'
 import { UpdateCarModel } from 'src/app/shared/UpdateCar.model';
-import { ReservationInformationModel } from 'src/app/shared/ReservationInformation.model';
 import { UserModel } from 'src/app/shared/User.model';
 
 @Component({
@@ -52,8 +51,6 @@ export class UserMainpageComponent implements OnInit {
 
   private emailRegexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
   private invalidEmail = false;
-
-  @Output() messageEvent = new EventEmitter<ReservationInformationModel>();
   
 
   constructor(private tokenStorage: TokenStorageService,

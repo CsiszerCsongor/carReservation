@@ -10,9 +10,6 @@ import { AdminEditCarsComponent } from '../pages/admin-edit-cars/admin-edit-cars
 
 import { ComponentMessageModel } from '../shared/ComponentMessage.model'
 
-import { ReservationComponent } from '../pages/reservation/reservation.component'
-import { ReservationInformationModel } from '../shared/ReservationInformation.model'
-
 
 @Component({
   selector: 'app-main-page',
@@ -22,7 +19,6 @@ import { ReservationInformationModel } from '../shared/ReservationInformation.mo
 export class MainPageComponent implements OnInit {
 
   private messageFromParent: ComponentMessageModel;
-  private carToReserv: ReservationInformationModel;
 
   private actualPage: string;
   private actualComponent: any;
@@ -90,18 +86,5 @@ export class MainPageComponent implements OnInit {
       }
     }
   }
-
-  /*changeSubComponent($event){
-    this.carToReserv = $event;
-    console.log("Here")
-
-    if(this.carToReserv.page === 'reserv'){
-      this.tokenStorage.saveDataInStorage(JSON.stringify(this.carToReserv.car));
-      this.actualComponent = ReservationComponent;
-    }
-    else {
-      this.actualComponent = UserMainpageComponent;
-    }
-  }*/
 
 }

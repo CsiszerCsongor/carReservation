@@ -1,0 +1,27 @@
+.content {
+    width:750px;
+    min-height: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:10px;
+}
+
+div.reservation-frame{
+    width: 750px;
+    height: 140px;
+    margin-bottom: 20px;
+}
+
+table tr td{
+
+}
+
+table tr td button{
+    margin-left:20px;
+    float:left;
+}
+
+table tr td button{
+    /*text-align: left;*/ 
+    float: right;  
+}

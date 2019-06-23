@@ -1,3 +1,111 @@
-<p>
-  admin-check-reservations works!
-</p>
+<div class="content">
+  <div *ngIf="!detailsCanAppear">
+    <div class="reservation-frame" *ngFor="let item of reservationList" >
+      <table class="table">
+        <thead class="thead-dark">
+        <th scope="col" colspan="3" class="title-font-style">
+          {{item.carname}}
+        </th>
+        <th></th>
+        <th></th>
+        </thead>
+        <tr>
+          <td><strong>Dátum : </strong>{{item.startDate}} - {{item.endDate}}</td>
+          <td><strong>Össz ár : </strong>{{item.sumOfReservation}}</td>
+          <td>
+            <button class="btn btn-success" (click)="showDetails(item.reservationid)">Bővebben >></button>
+          </td>
+        </tr>
+      </table>
+      <hr>
+    </div>
+  </div>
+
+
+  <!-- ======================================== Details  ======================================== -->
+  <div class="" *ngIf="detailsCanAppear">
+    <table class="table">
+      <thead class="thead-dark">
+        <th scope="col" colspan="3" class="title-font-style">
+          Foglalás kezelése
+        </th>
+        <th></th>
+        <th></th>
+      </thead>
+
+      <tr>
+        <td><strong>Felhasználó neve : </strong></td>
+        <td>{{reservationData.name}}</td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td><strong>Email : </strong></td>
+        <td>{{reservationData.email}}</td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td><strong>Telefon : </strong></td>
+        <td>{{reservationData.telephone}}</td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td><strong>Cím : </strong></td>
+        <td>{{reservationData.address}}</td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td><strong>Dátum : </strong></td>
+        <td>{{reservationData.startDate}}<br>{{reservationData.endDate}}</td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td><strong>Autó : </strong></td>
+        <td>{{reservationData.carName}}</td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td><strong>Autó kód : </strong></td>
+        <td>{{reservationData.carCode}}</td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td><strong>Autó napiár : </strong></td>
+        <td>{{reservationData.pricePerDay}} {{reservationData.currency}}</td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td><strong>Napok száma : </strong></td>
+        <td>{{nrOfDays}}</td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td><strong>Végső ár : </strong></td>
+        <td>{{reservationData.sumOfReservation}}</td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td>
+        </td>
+        <td>
+          <button class="btn btn-success" (click)="accept()">Elfogad</button>
+
+          <button class="btn btn-danger" (click)="decline()">Elutasít</button>
+          <button class="btn btn-primary" (click)="back()" )>Vissza</button>
+        </td>
+        <td>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+</div>
