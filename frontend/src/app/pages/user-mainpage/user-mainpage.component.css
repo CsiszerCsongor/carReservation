@@ -27,9 +27,6 @@
     margin-left:30px;
 }
 
-.available-car-content .car-datas table tr td {
-    /*border:1px solid black;*/
-}
 th[colspan]:not([colspan="1"]) {
     text-align: center;
 }
@@ -93,4 +90,86 @@ table.search-bar tr td {
     color: black;
     background-color: white;
     border: 2px solid black;
+}
+
+.car-reserve-content {
+    margin-top:20px;
+    margin-left:20px;
+    width:960px;
+}
+
+.red{
+    width:450px;
+    min-height:300px;
+    float:left;
+}
+.green{
+    width:455px;
+    min-height:300px;
+    
+    float:right;
+    margin-right:20px;
+}
+
+.car-reserve-content table {
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.reserve-car-picture{
+    width:270px;
+    height:160px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.reservation-buttons{
+    padding-left:auto;
+    padding-right:auto;
+}
+
+.reservation-buttons button.left{
+    float:left;
+}
+
+.reservation-buttons button.right{
+    float:right;
+}
+
+p.error-message{
+    color: red;
+    cursor: pointer;
+}
+
+div.message-success {
+    width:500px;
+    height:75px;
+    border:2px solid darkgreen;
+    border-radius: 20px;
+    background-color: greenyellow;
+    color:darkgreen;
+    text-align:center;
+    vertical-align: middle;
+    line-height: 70px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+div.message-success p {
+    color:black;
+    font-weight: bold;
+    display: inline;
+}
+
+div.message-unsuccess {
+    width:500px;
+    height:100px;
+    border:2px solid darkred;
+    border-radius: 20px;
+    background-color: rgb(255, 100, 100);;
+    color:darkred;
+    text-align:center;
+    vertical-align: middle;
+    line-height: 70px;
+    margin-right: 20px;
 }

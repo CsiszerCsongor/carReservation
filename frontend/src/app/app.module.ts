@@ -19,6 +19,7 @@ import { AdminEditCarsComponent } from './pages/admin-edit-cars/admin-edit-cars.
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ReservationComponent } from './pages/reservation/reservation.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     MainPageComponent,
     UserMainpageComponent,
     AdminCheckReservationsComponent,
-    AdminEditCarsComponent
+    AdminEditCarsComponent,
+    ReservationComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +42,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
   entryComponents: [
     UserMainpageComponent,
     AdminCheckReservationsComponent,
-    AdminEditCarsComponent
+    AdminEditCarsComponent,
+    ReservationComponent
   ],
   providers: [httpInterceptorProviders, Globals, ConfigService],
   bootstrap: [AppComponent]

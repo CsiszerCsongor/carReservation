@@ -6,10 +6,10 @@ import java.sql.Date;
 @Entity
 @Table(name="reservations")
 public class Reservation extends BaseEntity {
-    private String firstName;
-    private String lastName;
+    private String name;
     private String email;
     private String telephone;
+    private String address;
     private int sumOfReservation;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="car_id", nullable = false)
@@ -22,31 +22,25 @@ public class Reservation extends BaseEntity {
 
     public Reservation() {}
 
-    public Reservation(String firstName, String lastName, String email, String telephone, int sumOfReservation,
-                       Car car, Currency currency) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Reservation(String name, String email, String telephone, String address, int sumOfReservation,
+                       Car car, Currency currency, Date startDate, Date endDate) {
+        this.name = name;
         this.email = email;
         this.telephone = telephone;
+        this.address = address;
         this.sumOfReservation = sumOfReservation;
         this.car = car;
         this.currency = currency;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -63,6 +57,14 @@ public class Reservation extends BaseEntity {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public int getSumOfReservation() {

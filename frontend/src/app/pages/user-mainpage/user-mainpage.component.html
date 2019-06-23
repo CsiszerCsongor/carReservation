@@ -1,66 +1,174 @@
-<div class="date-picker-container">
-    <table class="search-bar">
-        <tr>
-            <td>Dátumok kiválasztása : </td>
-            <td class="td-datepicker-size">
-                <div class="row">
-                    <div class="col-xs-12 col-12 col-md-14 form-group">
-                        <label></label>
-                        <input type="text"
-                                placeholder="Daterangepicker"
-                                class="form-control"
-                                [(ngModel)]="daterangepickerModel"
-                                [bsConfig]="datePickerConfig"
-                                bsDaterangepicker>
+<div *ngIf="!reservationCanAppear">
+    <div class="date-picker-container">
+        <table class="search-bar">
+            <tr>
+                <td>Dátumok kiválasztása : </td>
+                <td class="td-datepicker-size">
+                    <div class="row">
+                        <div class="col-xs-12 col-12 col-md-14 form-group">
+                            <label></label>
+                            <input type="text"
+                                    placeholder="Daterangepicker"
+                                    class="form-control"
+                                    [(ngModel)]="daterangepickerModel"
+                                    [bsConfig]="datePickerConfig"
+                                    bsDaterangepicker>
+                        </div>
                     </div>
-                </div>
-            </td>
-            <td>
-                <button class="btn btn-primary" (click)="searchCarsBetweenDates()">Keresés</button>
-            </td>
-        </tr>
-    </table>
-</div>
-
-
-
-    
-<br/>
-<br/>
-
-<div class="available-car-content" *ngFor="let item of cars">
-    <div class="car-picture">
-        <img src="../../../assets/images/car.png"/>
-    </div>
-    <div class="car-datas">
-        <table class="table">
-            <thead class="thead-dark">
-                <th scope="col" colspan="3" class="title-font-style">{{item.name}}</th>
-                <th></th>
-                <th></th>
-            </thead>
-            <tr>
-                <td><strong>Napi ár : </strong></td>
-                <td>{{item.pricePerDay}} {{item.currency}}</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td><strong>Autó kód : </strong></td>
-                <td>{{item.carCode}}</td>
-                <td><button class="btn btn-success">Foglalás >></button></td>
+                </td>
+                <td>
+                    <button class="btn btn-primary" (click)="searchCarsBetweenDates()">Keresés</button>
+                </td>
             </tr>
         </table>
     </div>
     
+    
+    
+        
+    <br/>
+    <br/>
+    
+    <div class="available-car-content" *ngFor="let item of cars">
+        <div class="car-picture">
+            <img src="../../../assets/images/car.png"/>
+        </div>
+        <div class="car-datas">
+            <table class="table">
+                <thead class="thead-dark">
+                    <th scope="col" colspan="3" class="title-font-style">{{item.name}}</th>
+                    <th></th>
+                    <th></th>
+                </thead>
+                <tr>
+                    <td><strong>Napi ár : </strong></td>
+                    <td>{{item.pricePerDay}} {{item.currency}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>Autó kód : </strong></td>
+                    <td>{{item.carCode}}</td>
+                    <td><button class="btn btn-success" (click)="reservCar(item.id)">Foglalás >></button></td>
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+    <hr>
+    
+    <div class="paging-part">
+        <ul class="pagination">
+            <li class="page-item"><button class="page-link" (click)="getPageItems(-2)">Previous</button></li>
+            <li *ngFor="let item of arrayOne(pageNumber); let i = index;" class="page-item">
+                <button class="page-link" (click)="getPageItems(i+1)">{{i+1}}</button>
+            </li>
+            <li class="page-item"><button class="page-link" (click)="getPageItems(-1)">Next</button></li>
+        </ul>
+    </div>
 </div>
-<hr>
 
-<div class="paging-part">
-    <ul class="pagination">
-        <li class="page-item"><button class="page-link" (click)="getPageItems(-2)">Previous</button></li>
-        <li *ngFor="let item of arrayOne(pageNumber); let i = index;" class="page-item">
-            <button class="page-link" (click)="getPageItems(i+1)">{{i+1}}</button>
-        </li>
-        <li class="page-item"><button class="page-link" (click)="getPageItems(-1)">Next</button></li>
-    </ul>
+
+
+<!-- ====================================== RESERVATION PART ====================================== -->
+
+<div *ngIf="reservationCanAppear">
+    <div class="car-reserve-content">
+        <div class="red">
+            <table class="table">
+                <thead class="thead-dark">
+                    <th scope="col" colspan="2" class="title-font-style">{{choosedCar.name}}</th>
+                    <th></th>
+                </thead>
+                <tr>
+                <tr>
+                    <td><strong>Napi ár : </strong></td>
+                    <td>{{ choosedCar.pricePerDay }}</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Autó kód : </strong></td>
+                    <td>{{ choosedCar.carCode }}</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Dátum : </strong></td>
+                    <td>{{ startDateInNormalMode }} <br> {{ endDateInNormalMode }}</td>
+                </tr>
+
+                <tr>
+                    <td><strong>Össz érték :</strong></td>
+                    <td>{{ twoDateDifference * choosedCar.pricePerDay }} {{ choosedCar.currency }}</td>
+                </tr>
+            </table>
+            <div class="reserve-car-picture">
+                <img src="../../../assets/images/car.png"/>
+            </div>
+        </div>
+        <div class="green">
+            <table class="table">
+                <thead class="thead-dark">
+                    <th scope="col" colspan="2" class="title-font-style">Foglalási adatok</th>
+                    <th></th>
+                </thead>
+                <tr>
+                    <td><strong>Név : </strong></td>
+                    <td>
+                        <input type="text" class="form-control" (blur)="checkName()" [(ngModel)]="user.name">
+                        <p class="error-message" *ngIf="invalidName" title="Name contains only letters, space and the name start with BIG letter!">!!!</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><strong>Email : </strong></td>
+                    <td>
+                        <input type="text" class="form-control" (blur)="checkEmail()" [(ngModel)]="user.email">
+                        <p class="error-message" *ngIf="invalidEmail" title="Email example: email@example.com !">!!!</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><strong>Cím : </strong></td>
+                    <td>
+                        <input type="text" class="form-control" [(ngModel)]="user.address">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><strong>Telefonszám : </strong></td>
+                    <td>
+                        <input type="text" class="form-control" (blur)="checkTelephone()" [(ngModel)]="user.telephone">
+                        <p class="error-message" *ngIf="invalidTelephone" title="Telephone contains only 10 digits !">!!!</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><strong>Foglalt napok száma : </strong></td>
+                    <td>
+                        {{ twoDateDifference }}
+                    </td>
+                </tr>
+
+                <tr>
+                        <td class="reservation-buttons">
+                            <button class="btn btn-primary left" (click)="backToList()">Vissza</button>
+                        </td>
+                        <td class="reservation-buttons">
+                            <button class="btn btn-success right" (click)="submitRecerve()">Foglalás</button>
+                        </td>
+                    </tr>
+            </table>
+            <div *ngIf="submitButtonClicked">
+                <div class="message-success" *ngIf="!incorrectDatas">
+                    A foglalás sikeresen felvéve! Hamarosan kapcsolatba lépünk önnel!
+                </div>
+                
+                <div class="message-unsuccess" *ngIf="incorrectDatas">
+                    A foglalást nem lehet felvenni! Helyetelen adatok vannak megadva!
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+    
 </div>

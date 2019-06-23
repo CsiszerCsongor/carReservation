@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { CarModel } from 'src/app/shared/Car.model';
 
 import {TokenStorageService} from '../../auth/token-storage.service';
@@ -11,6 +11,8 @@ import { PageableModel } from 'src/app/shared/Pageable.model';
 
 import { TwoDateOnePageModel } from 'src/app/shared/TwoDateOnePage.model'
 import { UpdateCarModel } from 'src/app/shared/UpdateCar.model';
+import { ReservationInformationModel } from 'src/app/shared/ReservationInformation.model';
+import { UserModel } from 'src/app/shared/User.model';
 
 @Component({
   selector: 'app-user-mainpage',
@@ -19,6 +21,7 @@ import { UpdateCarModel } from 'src/app/shared/UpdateCar.model';
 })
 export class UserMainpageComponent implements OnInit {
   private getCarsBetweenDatesUrl = this.globals._url + "user/cars";
+  private sendReservationUrl = this.globals._url + "user/reservation";
 
   private cars: UpdateCarModel[];
   datePickerConfig: Partial<BsDatepickerConfig>;
@@ -32,6 +35,25 @@ export class UserMainpageComponent implements OnInit {
   private nrOfElementsOnPage = 5;
   private pageNumber:number;                //all page number
   private actualPageNumber: number;         //actual page number
+
+  // ============================ Reserv car part ============================ 
+  private reservationCanAppear: boolean;
+  private choosedCar: UpdateCarModel;
+  private user: UserModel;
+  private startDateInNormalMode: string;
+  private endDateInNormalMode: string;
+  private twoDateDifference: number;
+  private onlyLettersAndSpace = new RegExp(/^[A-Z][A-Za-z ]+$/);
+  private onlyDigits = new RegExp(/^\d+$/);
+  private invalidName: boolean;
+  private invalidTelephone: boolean;
+  private incorrectDatas: boolean;
+  private submitButtonClicked: boolean;
+
+  private emailRegexp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+  private invalidEmail = false;
+
+  @Output() messageEvent = new EventEmitter<ReservationInformationModel>();
   
 
   constructor(private tokenStorage: TokenStorageService,
@@ -54,12 +76,15 @@ export class UserMainpageComponent implements OnInit {
     this.daterangepickerModel.push(date1)
     this.daterangepickerModel.push(date2)
     this.pageNumber = 0;
+    this.reservationCanAppear = false;
+    this.invalidEmail = false;
+    this.invalidTelephone = false;
+    this.submitButtonClicked = false;
   }
 
   arrayOne(n: number): any[] {
     return Array(n);
   }
-
 
   searchCarsBetweenDates() {
     var date1 = this.daterangepickerModel[0];
@@ -133,6 +158,94 @@ export class UserMainpageComponent implements OnInit {
     });
   }
 
+  reservCar(id:number){
+    this.cars.forEach((item) => {
+      if(item.id === id){
+        this.choosedCar = item;
+      }
+    });
+
+    this.user = new UserModel('','','','','','',0, id, this.choosedCar.currency);
+
+    var tmp = JSON.stringify(this.daterangepickerModel[0]);
+    this.startDateInNormalMode = tmp.substr(0, tmp.indexOf('T')).replace('"','');
+    var tmp = JSON.stringify(this.daterangepickerModel[1]);
+    this.endDateInNormalMode = tmp.substr(0, tmp.indexOf('T')).replace('"','');
+    console.log(this.startDateInNormalMode);
+    console.log(this.endDateInNormalMode);
+
+    const diffTime = Math.abs(this.daterangepickerModel[1].getTime() - this.daterangepickerModel[0].getTime());
+    this.twoDateDifference = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; 
+    console.log("Difference : " + this.twoDateDifference);
+    
+    this.reservationCanAppear = true;
+  }
+
+
+  backToList(){
+    this.reservationCanAppear = false;
+    this.submitButtonClicked = false;
+  }
+
+  checkName(){
+    if (this.onlyLettersAndSpace.test(this.user.name)) {
+      this.invalidName = false;
+    } else {
+      this.invalidName = true;
+    }
+  }
+
+  checkEmail(){
+    if (this.emailRegexp.test(this.user.email)) {
+      this.invalidEmail = false;
+    } else {
+      this.invalidEmail = true;
+    }
+  }
+
+  checkTelephone(){
+    if (this.onlyDigits.test(this.user.telephone) && this.user.telephone.length == 10) {
+      this.invalidTelephone = false;
+    } else {
+      this.invalidTelephone = true;
+    }
+  }
+
+  submitRecerve() {
+    if(this.invalidName || this.invalidEmail || this.invalidTelephone || 
+       this.user.address === undefined || this.user.address === ''
+      ) {
+        this.submitButtonClicked = true;
+        this.incorrectDatas = true;
+
+    }
+    else{
+      this.user.startDate = this.startDateInNormalMode;
+      this.user.endDate = this.endDateInNormalMode;
+      this.user.sumOfReservation = this.twoDateDifference * this.choosedCar.pricePerDay;
+      console.log("User data : " + JSON.stringify(this.user));
+
+      this.http.post<boolean>(this.sendReservationUrl, this.user).subscribe(
+        result => {
+          if(result){
+            if(result == true){
+              this.submitButtonClicked = true;
+              this.incorrectDatas = false;
+            }
+            else{
+              this.submitButtonClicked = true;
+              this.incorrectDatas = false;
+            }
+            
+          }
+        },
+        error => {
+          this.submitButtonClicked = true;
+          this.incorrectDatas = true;
+        }
+      );
+      
+      
+    }
+  }
 }
-
-
